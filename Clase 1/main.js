@@ -35,6 +35,6 @@ const array2 = ['a','b','c','d','e','f'];
 //const array3 = array1.concat(array2);
 const array3 = [...array1, ...array2];
 console.log(array3);
-import { suma } from './suma1';
-export const suma1 = (a=0, b=0) => a + b;
+/*import { suma } from './suma1';
+export const suma1 = (a=0, b=0) => a + b;*/
 
