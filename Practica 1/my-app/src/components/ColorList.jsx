@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Component } from "react";
 import Color from "./Color";
 
 const colors = [
@@ -19,39 +19,56 @@ const colors = [
     }
 ];
 
-const ColorList = () => {
+class ColorList extends Component {
 
-  //const [ colorList, setColorList] = useState(colors)
+  constructor() {
+    super()
 
-  const [colorList, setColorList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const cargarColores = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setColorList(colors);
-      setIsLoading(false);
-    }, 3000)
+    this.state = {
+      colorList: [],
+      isLoading: false,
+    }
   }
 
-    return (
-      <>
-        <button onClick={() => cargarColores()}>Click me</button>
-        {isLoading && <h1>Loading</h1> }
-        <div>
-          {
-            colorList.map( color => 
-              <Color 
-                name={color.name} 
-                hex={color.hex}
-                key={color.id}
-                id={color.id}
-              />
-            )
-          }
-        </div>
-      </>
-  );
+  //const [ colorList, setColorList] = useState(colors)
+  //const [colorList, setColorList] = useState([]);
+  //const [isLoading, setIsLoading] = useState(false);
+
+    render() {
+
+      const cargarColores = () => {
+        this.setState({isLoading: !isLoading})
+        setTimeout(() => {
+          this.setState({
+            colorList: colors,
+            isLoading: false
+          })
+          //setColorList(colors);
+          //setIsLoading(false);
+        }, 3000)
+      }
+
+      const {colorList, isLoading} = this.state
+
+      return (
+        <>
+          <button onClick={() => cargarColores()}>Click me</button>
+          {isLoading && <h1>Loading</h1> }
+          <div>
+            {
+              colorList.map( color => 
+                <Color
+                  name={color.name} 
+                  hex={color.hex}
+                  key={color.id}
+                  id={color.id}
+                />
+              )
+            }
+          </div>
+        </>
+      );
+    }
 }
 
 export default ColorList;
