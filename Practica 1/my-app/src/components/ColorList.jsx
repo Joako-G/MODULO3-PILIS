@@ -1,7 +1,7 @@
-import { Component } from "react";
+import { useState } from "react";
 import Color from "./Color";
 
-const colors = [
+ const colors = [
     {
         id: 1,
         name: 'azul',
@@ -9,7 +9,7 @@ const colors = [
     },
     {
         id: 2,
-        name: 'anaranjado',
+        name: 'naranja',
         hex: '#F8BD7F'
     },
     {
@@ -19,56 +19,37 @@ const colors = [
     }
 ];
 
-class ColorList extends Component {
+const ColorList = () => {
 
-  constructor() {
-    super()
-
-    this.state = {
-      colorList: [],
-      isLoading: false,
-    }
+  const [ colorList, setColorList ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(false);
+  const cargarColores = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setColorList(colors);
+      setIsLoading(false);
+    }, 3000);
   }
 
-  //const [ colorList, setColorList] = useState(colors)
-  //const [colorList, setColorList] = useState([]);
-  //const [isLoading, setIsLoading] = useState(false);
-
-    render() {
-
-      const cargarColores = () => {
-        this.setState({isLoading: !isLoading})
-        setTimeout(() => {
-          this.setState({
-            colorList: colors,
-            isLoading: false
-          })
-          //setColorList(colors);
-          //setIsLoading(false);
-        }, 3000)
-      }
-
-      const {colorList, isLoading} = this.state
-
-      return (
-        <>
-          <button onClick={() => cargarColores()}>Click me</button>
-          {isLoading && <h1>Loading</h1> }
-          <div>
-            {
-              colorList.map( color => 
-                <Color
-                  name={color.name} 
-                  hex={color.hex}
-                  key={color.id}
-                  id={color.id}
-                />
-              )
-            }
-          </div>
-        </>
-      );
-    }
+  return (
+    <>
+      <button onClick={() => cargarColores()}> Click Me </button>
+      { isLoading && <h1>Loading...</h1> }
+      <div>
+        {
+          colorList.map(color => 
+            <Color 
+              name={color.name}
+              hex={color.hex}
+              key={color.id}
+              id={color.id}
+            />
+          )
+        }
+      </div>
+    </>
+  )
+  
 }
 
 export default ColorList;
