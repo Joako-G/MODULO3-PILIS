@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Component, useState } from "react";
 import Color from "./Color";
 
  const colors = [
@@ -19,8 +19,8 @@ import Color from "./Color";
     }
 ];
 
-const ColorList = () => {
-
+//Componente funcional
+/* const ColorList = () => {
   const [ colorList, setColorList ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
   const cargarColores = () => {
@@ -49,7 +49,82 @@ const ColorList = () => {
       </div>
     </>
   )
-  
+
+} */
+
+//Componente de clase
+/* class ColorList extends Component {
+
+  constructor(props){
+    super(props);
+    this.state={
+      colorList: [],
+      isLoading: false
+    }
+  }
+
+  render() {
+    const cargarColores = () => {
+      this.setState({isLoading: !isLoading});
+      setTimeout(() => {
+        this.setState({
+          colorList: colors,
+          isLoading: false
+        })
+      }, 3000);
+    }
+
+    const { colorList, isLoading } = this.state;
+
+    return (
+      <>
+        <h1> {this.props.title} </h1>
+        <button onClick={() => cargarColores()}> Click Me </button>
+        { isLoading && <h1>Loading...</h1> }
+        <div>
+          {
+            colorList.map(color => 
+              <Color 
+                name={color.name}
+                hex={color.hex}
+                key={color.id}
+                id={color.id}
+              />
+            )
+          }
+        </div>
+      </>
+    )
+  }
+} */
+
+//ColorPicker Lifting state up
+const ColorList = () => {
+  const [ backgroundColor, setBackgroundColor ] = useState('white')
+  const [ isLoading, setIsLoading ] = useState(false);
+
+  const cargarColores = () => {
+    setIsLoading(!isLoading);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }
+  return (
+    <>
+      <button onClick={ () => cargarColores ()}>Load Colors</button>
+      {
+        isLoading && <div>Loading...</div>
+      } 
+      <div className='page' style={{ backgroundColor }}>
+        {
+          colors.map(color => (
+            <Color key={color.id} hex={color.hex} name={color.name} setBackgroundColor={setBackgroundColor} />
+          ))
+        }
+      </div>
+    </>
+    
+  )
 }
 
 export default ColorList;

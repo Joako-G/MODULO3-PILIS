@@ -9,18 +9,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-* {
-  font-family: 'Comfortaa';
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
 .color-square {
   text-shadow: 0 0 3px #000000;
   width: 300px;
@@ -31,6 +19,7 @@ code {
   padding: 40px;
   margin: 10px;
   transition: box-shadow 0.3s;
+  border: 2px solid #000000;
 }
 
 .color-square:hover {
