@@ -1,23 +1,6 @@
-import { Component, useState } from "react";
+import { useEffect, useState } from "react";
 import Color from "./Color";
-
- const colors = [
-    {
-        id: 1,
-        name: 'azul',
-        hex: '#0496FF'
-    },
-    {
-        id: 2,
-        name: 'naranja',
-        hex: '#F8BD7F'
-    },
-    {
-        id: 3,
-        name: 'amarillo',
-        hex: '#FFFC31'
-    }
-];
+import { getColors} from "../service";
 
 //Componente funcional
 /* const ColorList = () => {
@@ -100,25 +83,40 @@ import Color from "./Color";
 
 //ColorPicker Lifting state up
 const ColorList = () => {
+  const [ colorList, setColorList ] = useState([]);
   const [ backgroundColor, setBackgroundColor ] = useState('white')
   const [ isLoading, setIsLoading ] = useState(false);
 
-  const cargarColores = () => {
-    setIsLoading(!isLoading);
-    setTimeout(() => {
+ /*  useEffect ( () => {
+    setIsLoading(true);
+    const timeOut = setTimeout(() => {
+      setColorList(colors);
       setIsLoading(false);
-    }, 2000);
-  }
+    },2000)
+    return () => {
+      clearTimeout(timeOut);
+    }
+  }, []) */
+
+  useEffect(() => {
+    setIsLoading(true);
+    getColors()
+      .then((data) => setColorList(data))
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false))
+  }, [])
+  
   return (
     <>
-      <button onClick={ () => cargarColores ()}>Load Colors</button>
-      {
-        isLoading && <div>Loading...</div>
-      } 
       <div className='page' style={{ backgroundColor }}>
+        { isLoading && <snap className='loading-test'>Loading</snap>}
         {
-          colors.map(color => (
-            <Color key={color.id} hex={color.hex} name={color.name} setBackgroundColor={setBackgroundColor} />
+          colorList.map(color => (
+            <Color 
+              key={color.id} 
+              hex={color.hex} 
+              name={color.name} 
+              setBackgroundColor={setBackgroundColor} />
           ))
         }
       </div>
